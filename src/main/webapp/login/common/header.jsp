@@ -5,7 +5,7 @@
 <span style="float: right; padding-right: 10px;">
 欢迎,<%=UserContext.getInstance().getUser().getUsername()%> 
 | <a href="javascript:void(0)" onclick="updatePswd(); return false;">修改密码</a>
-| <a href="javascript:void(0)" onclick="Gloable.logout(); return false;">安全退出</a>
+| <a href="javascript:void(0)" onclick="Globle.logout(); return false;">安全退出</a>
 </span>
 <span style="padding-left: 5px; font-size: 16px;">
 <!-- 		<img src="images/blocks.gif" width="20" height="20" align="absmiddle" /> -->

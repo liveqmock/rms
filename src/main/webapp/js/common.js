@@ -412,7 +412,9 @@ if (typeof(jQuery) != 'undefined') {
     });
 }
 
-var Gloable = $.extend(window.Gloable || {},{
+// 全局函数
+var Globle = {
+	// 注销
 	logout:function(){
 		$.ajax({
 			type: "POST",
@@ -428,7 +430,9 @@ var Gloable = $.extend(window.Gloable || {},{
 			}
 		});
 	}
-});
+	
+}
+
 
 
 var HtmlUtil = (function(){

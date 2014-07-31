@@ -77,7 +77,7 @@ function updatePswd(){
 	    	var data = $.parseJSON(resultTxt);
 	    	if(data.success){
 		        alert('密码修改成功,请重新登录');
-		        logout();
+		        Globle.logout();
 	    	}else{
 	    		MsgUtil.topMsg(data.errorMsg);
 	    	}
