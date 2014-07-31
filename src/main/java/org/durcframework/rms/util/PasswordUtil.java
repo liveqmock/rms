@@ -1,9 +1,19 @@
 package org.durcframework.rms.util;
 
 import org.durcframework.exception.DurcException;
+import org.durcframework.rms.common.Md5Encrypt;
 
 public class PasswordUtil {
 
+	/**
+	 * 生成保存在数据库中的密码
+	 * @param password 明文密码
+	 * @return
+	 */
+	public static String createStorePswd(String password){
+		password = Md5Encrypt.encrypt(password);
+		return createHash(password);
+	}
 	
 	public static String createHash(String password){
 		try {

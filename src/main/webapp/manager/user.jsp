@@ -62,7 +62,7 @@ var crud = Crud.create({
 
 var buttons = [
 	{text:'重置密码',onclick:function(row){
-		
+		resetPassword(row);
 	}}
 	,{text:'设置角色',onclick:addRole}
 ];
@@ -82,6 +82,14 @@ function addRole(row){
 
 function closeDlg(){
 	$('#addRoleDlg').dialog('close');
+}
+
+function resetPassword(row){
+	Action.jsonAsyncActByData(ctx + 'resetUserPassword.do',row,function(e){
+		if(e.success){
+			MsgUtil.alert('密码重置成功,新密码为:<strong style="color:red;">' + e.msg + '</strong>');
+		}
+	});
 }
 </script>
 </body>

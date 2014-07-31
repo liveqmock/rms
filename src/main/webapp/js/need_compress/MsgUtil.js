@@ -48,7 +48,7 @@ var MsgUtil = {
 		});
 	}
 	,getJQ:function(){
-		return parent.$ || $;
+		return top.$ || $;
 	}
 }  
 

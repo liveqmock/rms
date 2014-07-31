@@ -34,7 +34,6 @@
         <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="crud.closeDlg(); return false;">取消</a>
     </div>
     
-    <button onclick="aaa()">aaa</button>
 <jsp:include page="../easyui_lib.jsp"></jsp:include>
 <script type="text/javascript">
 var that = this;
@@ -55,9 +54,6 @@ crud.buildGrid([
             ,crud.createEditColumn()   
 ]);
 
-function aaa(){
-	Action.jsonAsyncActByData(ctx +'listRSysOperate.do',{},function(){} );
-}
 </script>
 </body>
 </html>
