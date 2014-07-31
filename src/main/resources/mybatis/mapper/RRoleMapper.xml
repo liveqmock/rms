@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.durcframework.rms.dao.RRoleDao">
+	<resultMap id="queryResultMap" type="org.durcframework.rms.entity.RRole">
+		<result column="role_id" property="roleId" jdbcType="INTEGER" />
+		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="find" parameterType="org.durcframework.expression.ExpressionQuery"
+		resultMap="queryResultMap">
+		SELECT *
+		FROM r_role t
+		<include refid="expressionBlock.where" />
+		<choose>
+			<when test="sortname == null">
+				ORDER BY role_id desc
+			</when>
+			<otherwise>
+				ORDER BY ${order}
+			</otherwise>
+		</choose>
+		<if test="!isQueryAll">
+			LIMIT
+			#{firstResult,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+		</if>
+	</select>
+
+
+	<select id="findTotalCount" parameterType="org.durcframework.expression.ExpressionQuery"
+		resultType="java.lang.Integer">
+		SELECT count(*) FROM r_role t
+		<include refid="expressionBlock.where" />
+	</select>
+
+	<insert id="save" parameterType="org.durcframework.rms.entity.RRole"
+		keyProperty="roleId" keyColumn="role_id" useGeneratedKeys="true">
+		INSERT INTO r_role
+		(
+		role_name
+		)
+		VALUES (
+		#{roleName,jdbcType=VARCHAR}
+
+		)
+	</insert>
+
+
+	<update id="update" parameterType="org.durcframework.rms.entity.RRole">
+		UPDATE r_role
+		SET
+		role_name=#{roleName,jdbcType=VARCHAR}
+		WHERE role_id = #{roleId,jdbcType=INTEGER}
+	</update>
+
+	<select id="get" resultMap="queryResultMap" parameterType="java.io.Serializable">
+		SELECT *
+		FROM r_role
+		WHERE role_id = #{roleId,jdbcType=INTEGER}
+	</select>
+
+	<delete id="del" parameterType="org.durcframework.rms.entity.RRole">
+		DELETE FROM r_role
+		WHERE role_id = #{roleId,jdbcType=INTEGER}
+	</delete>
+	
+	<select id="findRoleByUsername" parameterType="String" resultMap="queryResultMap">
+	SELECT * FROM `r_role` r
+	WHERE r.`role_id` IN (
+		SELECT t.`role_id` FROM `r_user_role` t
+		WHERE t.`username` = (SELECT u.`username` FROM `r_user` u WHERE u.`username`=#{username,jdbcType=VARCHAR})
+	)
+	</select>
+	
+	<select id="findRoleByFunction" parameterType="int" resultMap="queryResultMap">
+		SELECT * FROM `r_role` t
+		WHERE t.`role_id` IN 
+		(
+			SELECT tt.`role_id` FROM `r_role_permission` tt WHERE tt.`sf_id` = #{sfId,jdbcType=INTEGER}
+		)
+	</select>
+	
+</mapper>

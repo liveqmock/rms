@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.durcframework.rms.dao.RUserRoleDao">
+	<resultMap id="queryResultMap" type="org.durcframework.rms.entity.RUserRole">
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="role_id" property="roleId" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="find" parameterType="org.durcframework.expression.ExpressionQuery"
+		resultMap="queryResultMap">
+		SELECT *
+		FROM r_user_role t
+		<include refid="expressionBlock.where" />
+		<choose>
+			<when test="sortname == null">
+				ORDER BY username desc
+			</when>
+			<otherwise>
+				ORDER BY ${order}
+			</otherwise>
+		</choose>
+		<if test="!isQueryAll">
+			LIMIT
+			#{firstResult,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+		</if>
+	</select>
+
+
+	<select id="findTotalCount" parameterType="org.durcframework.expression.ExpressionQuery"
+		resultType="java.lang.Integer">
+		SELECT count(*) FROM r_user_role t
+		<include refid="expressionBlock.where" />
+	</select>
+
+	<insert id="save" parameterType="org.durcframework.rms.entity.RUserRole">
+		INSERT INTO r_user_role
+		(
+		username
+		, role_id
+		)
+		VALUES (
+		#{username,jdbcType=VARCHAR}
+		, #{roleId,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<select id="get" resultMap="queryResultMap" parameterType="java.io.Serializable">
+		SELECT *
+		FROM r_user_role
+		WHERE 
+		user_id = #{userId,jdbcType=INTEGER}
+		AND 
+		username = #{username,jdbcType=VARCHAR}
+		
+	</select>
+
+	<delete id="del" parameterType="org.durcframework.rms.entity.RUserRole">
+		DELETE FROM r_user_role
+		WHERE 
+		user_id = #{userId,jdbcType=INTEGER}
+		AND 
+		username = #{username,jdbcType=VARCHAR}
+	</delete>
+	
+	<delete id="delAllUserRole" parameterType="String">
+		DELETE FROM r_user_role
+		WHERE 
+		username = #{username,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="setUserRole" parameterType="org.durcframework.rms.entity.UserRoleParam">
+		INSERT INTO r_user_role
+		(
+		username
+		, role_id
+		)
+		VALUES 
+		<foreach collection="roleIds" item="roleId" separator=",">
+		(#{username,jdbcType=VARCHAR},#{roleId,jdbcType=INTEGER})
+		</foreach>
+	</insert>
+
+</mapper>
