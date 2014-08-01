@@ -11,6 +11,24 @@
 </style>
 </head>
 <body>
+	
+	<div class="easyui-panel search_panel" 
+	style="padding:5px;background-color:#fafafa;margin-bottom: 10px;"
+	data-options="iconCls:'icon-search'">
+		<form id="schForm">
+			<table>
+				<tr>
+					<td class="fm_lab">用户名:</td><td><input name="usernameSch" type="text" class="easyui-validatebox"></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="crud.search();">查询</a>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
      <div id="toolbar">
         <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="crud.add()">添加新用户</a>
     </div>
@@ -38,7 +56,7 @@
     	style="width:500px;height:450px;padding:10px 20px"
     	title="设置角色"
     	closed="true" modal="true">
-    	<iframe id="roleFrame" scrolling="yes" frameborder="0" style="width:100%;height:100%;"></iframe>
+    		<iframe id="roleFrame" scrolling="yes" frameborder="0" style="width:100%;height:100%;"></iframe>
     </div>
     
 <jsp:include page="../easyui_lib.jsp"></jsp:include>
@@ -54,6 +72,7 @@ var crud = Crud.create({
     ,dlgId:'dlg'
     ,formId:'fm'
     ,gridId:'dg'
+    ,searchFormId:'schForm'
     // password输入框需要用MD5加密
     ,encryptConfig:{encryptFun:function(val){
     	return faultylabs.MD5(val);

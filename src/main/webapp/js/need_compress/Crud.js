@@ -16,6 +16,7 @@ var Crud = (function(){
 		this.listUrl = param.listUrl;
 		this.updateUrl = param.updateUrl;
 		this.delUrl = param.delUrl;
+		this.searchFormId = param.searchFormId;
 		this.pk = param.pk;
 		this.encryptConfig = param.encryptConfig;
 		
@@ -52,6 +53,13 @@ var Crud = (function(){
 					this.getPkInput().prop('disabled',true);
 				}
 			}
+		}
+		,load:function(param){
+			this.runGridMethod('load',param);
+		}
+		,search:function(){
+			var data = Crud.getFormData(this.searchFormId);
+			this.load(data);
 		}
 		,runGridMethod:function(methodName,param){
 			this.$grid[this.gridType](methodName,param);
@@ -219,6 +227,30 @@ var Crud = (function(){
 			}
 			
 			return formatterHandler;
+		}
+		/**
+		 * 获取表单提交参数
+		 */
+		,getFormData:function(searchFormId){
+			var fields = $("#"+searchFormId).serializeArray();
+			var obj = {};
+			$.each( fields, function(i, field){
+				var addValue = field.value;
+				// 如果有同样的参数名,他们的值要变成数组形式保存
+				if(obj[field.name]){
+					var val = obj[field.name];
+		
+					if($.isArray(val)){
+						val.push(addValue);
+					}else{
+						obj[field.name] = [val,addValue];
+					}
+				}else{
+					obj[field.name] = addValue;
+				}
+			});
+			
+			return obj;
 		}
 	};
 	
