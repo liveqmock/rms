@@ -133,7 +133,7 @@ CREATE TABLE `r_sys_res` (
   `sr_id` int(11) NOT NULL auto_increment,
   `parent_id` int(11) default NULL,
   `res_name` varchar(50) NOT NULL,
-  `url` varchar(50) default NULL,
+  `url` varchar(100) default NULL,
   PRIMARY KEY  (`sr_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
