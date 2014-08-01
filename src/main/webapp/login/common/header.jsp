@@ -14,6 +14,7 @@
 <div id="updatePswdDlg" class="easyui-dialog" 
   	style="width:500px;height:250px;padding:10px 20px"
   	title="修改密码" buttons="#updatePswdDlgBtn"
+  	data-options="onClose:Globle.removeIframe('updatePswdFrame')"
   	closed="true" modal="true">
   	
   	<div id="updatePswdFrame"></div>
@@ -27,4 +28,5 @@ function updatePswd(){
 	$('#updatePswdFrame').html('<iframe src="' + ctx + 'help/updatePassword.jsp" scrolling="yes" frameborder="0" style="width:100%;height:100%;"></iframe>');
 	$('#updatePswdDlg').dialog('open');
 }
+
 </script>

@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.durcframework</groupId>
-	<artifactId>autoCode</artifactId>
+	<artifactId>RMS</artifactId>
 	<version>1.0.0</version>
 
 	<dependencies>
@@ -42,7 +42,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>autoCode</finalName>
+		<finalName>RMS</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

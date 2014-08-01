@@ -39,7 +39,8 @@
 
 <script type="text/javascript">
 //绑定tabs的右键菜单
-$("#mainTab").tabs({
+var $mainTab = $("#mainTab");
+$mainTab.tabs({
     onContextMenu : function (e, title) {
         e.preventDefault();
         $('#tabsMenu').menu('show', {
@@ -49,17 +50,18 @@ $("#mainTab").tabs({
     }
 });
 
-	//实例化menu的onClick事件
+//实例化menu的onClick事件
 $("#tabsMenu").menu({
     onClick : function (item) {
         closeTab(this, item.name);
     }
 });
 
-	//几个关闭事件的实现
+
+//几个关闭事件的实现
 function closeTab(menu, type) {
     var curTabTitle = $(menu).data("tabTitle");
-    var tabs = $("#mainTab");
+    var tabs = $mainTab;
     
     if (type === "close") {
         tabs.tabs("close", curTabTitle);
@@ -67,7 +69,8 @@ function closeTab(menu, type) {
     }
     if (type === "Refresh") {
     	var currTab =  tabs.tabs('getSelected'); //获得当前tab
-        var url = $(currTab.panel('options').content).attr('src');
+    	var $iframe = $(currTab.panel('options').content);
+        var url = $iframe.attr('src');
     	if(url){
    		  tabs.tabs('update', {
    	        	tab : currTab,

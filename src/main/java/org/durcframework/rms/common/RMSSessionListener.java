@@ -15,7 +15,9 @@ public class RMSSessionListener implements HttpSessionListener {
 	@Override
 	public void sessionDestroyed(HttpSessionEvent event) {
 		RUser user = UserContext.getInstance().getUser(event.getSession());
-		RMSContext.getInstance().clearUserRightData(user.getUsername());
+		if(user != null){
+			RMSContext.getInstance().clearUserRightData(user.getUsername());
+		}
 	}
 
 }

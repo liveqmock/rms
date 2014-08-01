@@ -3,11 +3,13 @@ package org.durcframework.rms.controller;
 import java.util.Date;
 
 import org.durcframework.common.UserContext;
+import org.durcframework.entity.ValidateHolder;
 import org.durcframework.rms.common.RMSContext;
 import org.durcframework.rms.entity.RUser;
 import org.durcframework.rms.service.RUserService;
 import org.durcframework.rms.util.PasswordUtil;
 import org.durcframework.util.ResultUtil;
+import org.durcframework.util.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -29,24 +31,29 @@ public class LoginController {
 	 */
 	@RequestMapping("login.do")
 	public ModelAndView login(RUser backUser) {
-
-		if (StringUtils.hasText(backUser.getUsername())) {
-			RUser user = rUserService.get(backUser.getUsername());
-			if (user == null) {
-				return ResultUtil.error("用户名密码不正确");
-			}
-
-			String password = backUser.getPassword();
-			String correctHash = user.getPassword();
-
-			boolean isPswdCorrect = PasswordUtil.validatePassword(password,
-					correctHash);
-
-			if (isPswdCorrect) {
-				doLogin(user);
-				return ResultUtil.success();
+		
+		ValidateHolder validateHolder = ValidateUtil.validate(backUser);
+		
+		if(validateHolder.isSuccess()){
+			if (StringUtils.hasText(backUser.getUsername())) {
+				RUser user = rUserService.get(backUser.getUsername());
+				if (user == null) {
+					return ResultUtil.error("用户名密码不正确");
+				}
+				
+				String password = backUser.getPassword();
+				String correctHash = user.getPassword();
+				
+				boolean isPswdCorrect = PasswordUtil.validatePassword(password,
+						correctHash);
+				
+				if (isPswdCorrect) {
+					doLogin(user);
+					return ResultUtil.success();
+				}
 			}
 		}
+
 
 		return ResultUtil.error("用户名密码不正确");
 	}

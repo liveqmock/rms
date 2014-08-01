@@ -74,5 +74,17 @@
 		WHERE operate_code = #{operateCode,jdbcType=VARCHAR}
 		AND sr_id = #{srId,jdbcType=INTEGER}
 	</select>
+	
+	<select id="findUserSysFunction" resultMap="queryResultMap" parameterType="String">
+		SELECT t.* 
+		FROM r_sys_function t
+		INNER JOIN (
+			SELECT DISTINCT sf.sr_id FROM r_sys_function sf INNER JOIN 
+			(
+				SELECT DISTINCT rp.sf_id FROM r_role_permission rp INNER JOIN r_user_role ur ON rp.role_id = ur.role_id
+				WHERE ur.username = #{username,jdbcType=VARCHAR}
+			) sf2 ON sf.sf_id = sf2.sf_id
+		) tt ON t.sr_id = tt.sr_id
+	</select>
 
 </mapper>

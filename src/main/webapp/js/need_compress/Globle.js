@@ -27,6 +27,12 @@ var Globle = {
 			}
 		});
 	}
+	// 移除某个节点下的iframe.
+	,removeIframe:function(dlgId){
+		return function(){
+			$('#'+dlgId).find('iframe').remove();
+		}
+	}
 	
 }
 

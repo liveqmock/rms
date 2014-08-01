@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>权限管理系统 - 用户登录</title>
+<link href="favicon.ico" rel="SHORTCUT ICON">
+<link href="./css/login.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="head">
+	<div class="logo">
+		<dl>
+			<dt><img class="logo" src="./css/img/logo.png"></dt>
+			<dd>
+				<h2>权限管理系统</h2>
+				<h4>Rights Management System</h4>
+			</dd>
+		</dl>
+	</div>
+	<div class="tool">
+		<ul>
+			<li class="modify"><a href="#" target="_top">帮助</a></li>
+		</ul>
+	</div>
+</div>
+<div class="central"><br>
+<form method="post" onkeypress="keyPress(event)">
+		<!--密码认证登录区-->
+		<div class="login" id="mode_password">
+				<!---->
+			<div class="login_body">
+				<!--标题-->
+				<div class="login_head">
+					<dl>
+						<dt class="user_ico"></dt>
+						<dd><span>用户登录</span>使用用户名密码方式登录。</dd>
+					</dl>
+				</div>
+				<!--输入部分-->
+				<div class="login_operate">
+					<ul>
+						<li class="username"><span></span>
+							<label class="txt_default" for="username" default_txt="用户名" style="opacity: 0;">用户名</label>
+							<input id="username" name="username" class="input focus" type="text">
+						</li>
+						<li class="password"><span></span>
+							<label class="txt_default" for="password" default_txt="密码" style="opacity: 0;">密码</label>
+							<input id="password" name="password" class="input" value="" type="password">
+						</li>
+					</ul>
+				</div>
+				<!--提示与反馈信息-->
+				<div class="login_box_msg shiftKey" style="display: none;">
+					<dl>
+						<dt></dt>
+						<dd></dd>
+					</dl>
+				</div>
+				<!--登录按钮-->
+				<div class="btn_ok">
+					<div class="login_btn login_btn_ok">
+						<input type="button" class="button" onclick="login()" value="登录">
+					</div>
+				</div>
+			</div>
+
+			
+		</div>
+</form>		
+</div>
+<div class="bottom"><span></span></div>
+<div class="central_bg"></div>
+
+<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="js/MD5.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
+
+<script type="text/javascript">
+
+var $pswd = $('#password');
+var $username = $('#username');
+
+function login(){
+	
+	if(!check()){
+		return false;
+	}
+	
+	var password = $.trim($pswd.val());
+	var username = $.trim($username.val());
+	
+	var data = {password:faultylabs.MD5(password),username:username};
+	
+	$.ajax({
+		type: "POST",
+		url: 'login.do',
+		async:true,
+		traditional:true,
+		dataType: "json",
+		data:data,
+		success: function(result){
+			if (result.success){
+				window.location = 'login/main.jsp';
+			} else {
+				$pswd.val('');
+				var errorMsg = result.errorMsg;
+				js_alert("mode_password",errorMsg);
+			}
+		},
+		error:function(hxr,type,error){
+			js_alert("mode_password", "后台出错,请查看日志");
+		}
+	});
+}
+
+function check(){
+	var	msg = null;
+	var password = $.trim($pswd.val());
+	var username = $.trim($username.val());
+	var valid = false;
+	
+	if((username.length <= 0) || (password.length <= 0)){
+		msg = "用户名和密码不能为空！";
+	}else if(username.length > 20){
+		msg = "用户名长度不能超过20！";
+	}
+	
+	if(msg){
+		js_alert("mode_password", msg);
+	} else {
+		js_alert("mode_password", "");
+		valid = true;
+	}
+	
+	return valid;
+}
+
+function keyPress(event){
+	if(event.keyCode == 13){
+		login();
+	}
+}
+
+</script>
+</body>
+</html>

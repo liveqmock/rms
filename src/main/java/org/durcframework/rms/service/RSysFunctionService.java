@@ -42,17 +42,13 @@ public class RSysFunctionService extends CrudService<RSysFunction, RSysFunctionD
 		return this.getDao().findBySrIdOperateCode(function);
 	}
 	
-	public List<RSysFunction> getUserSysFunction(List<RRolePermission> rolePermissions){
-		ExpressionQuery query = new ExpressionQuery();
-		query.setIsQueryAll(true);
-		
-		query.add(new ListExpression("sf_id", rolePermissions, new ValueConvert<RRolePermission>() {
-			@Override
-			public Object convert(RRolePermission obj) {
-				return obj.getSfId();
-			}
-		}));
-		
-		return this.find(query);
+			
+	/**
+	 * 获取用户系统功能
+	 * @param username
+	 * @return
+	 */
+	public List<RSysFunction> getUserSysFunction(String username){
+		return this.getDao().findUserSysFunction(username);
 	}
 }

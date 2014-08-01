@@ -7,10 +7,8 @@ import java.util.Set;
 
 import org.durcframework.common.SpringContext;
 import org.durcframework.common.UserContext;
-import org.durcframework.rms.entity.RRolePermission;
 import org.durcframework.rms.entity.RSysFunction;
 import org.durcframework.rms.entity.RUser;
-import org.durcframework.rms.service.RRolePermissionService;
 import org.durcframework.rms.service.RSysFunctionService;
 import org.springframework.util.StringUtils;
 
@@ -38,11 +36,9 @@ public enum RMSContext {
 	 * 刷新保存用权限数据.(系统功能=菜单+操作点)
 	 */
 	public void refreshUserRightData(String username){
-		RRolePermissionService rolePermissionService = SpringContext.getBean(RRolePermissionService.class);
 		RSysFunctionService sysFunctionService = SpringContext.getBean(RSysFunctionService.class);
 		
-		List<RRolePermission> rolePermis = rolePermissionService.getRolePermissionByUsername(username);
-		List<RSysFunction> userSysFuns = sysFunctionService.getUserSysFunction(rolePermis);
+		List<RSysFunction> userSysFuns = sysFunctionService.getUserSysFunction(username);
 		
 		userSysFunctionMap.put(username, userSysFuns);
 	}
