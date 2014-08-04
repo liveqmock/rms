@@ -25,7 +25,7 @@
 </div>
 <script type="text/javascript">
 function updatePswd(){
-	$('#updatePswdFrame').html('<iframe src="' + ctx + 'help/updatePassword.jsp" scrolling="yes" frameborder="0" style="width:100%;height:100%;"></iframe>');
+	$('#updatePswdFrame').html('<iframe src="' + ctx + 'help/updatePassword.jsp" scrolling="no" frameborder="0" style="width:100%;height:150px;"></iframe>');
 	$('#updatePswdDlg').dialog('open');
 }
 

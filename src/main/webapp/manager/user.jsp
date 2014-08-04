@@ -53,10 +53,11 @@
     </div>
     
     <div id="addRoleDlg" class="easyui-dialog" 
-    	style="width:500px;height:450px;padding:10px 20px"
+    	style="width:500px;height:460px;padding:10px"
     	title="设置角色"
+    	data-options="onClose:Globle.removeIframe('roleFrame')"
     	closed="true" modal="true">
-    		<iframe id="roleFrame" scrolling="yes" frameborder="0" style="width:100%;height:100%;"></iframe>
+    	<div id="roleFrame"></div>
     </div>
     
 <jsp:include page="../easyui_lib.jsp"></jsp:include>
@@ -95,7 +96,7 @@ crud.buildGrid([
 
 function addRole(row){
 	var username = row.username;
-	$('#roleFrame').attr('src','userRole.jsp?username=' + username);
+	$('#roleFrame').html('<iframe src="userRole.jsp?username='+username+'" scrolling="no" frameborder="0" style="width:100%;height:400px;"></iframe>');
 	$('#addRoleDlg').dialog('open');
 }
 
