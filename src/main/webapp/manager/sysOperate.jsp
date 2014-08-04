@@ -49,9 +49,9 @@ var crud = Crud.create({
 });
 
 crud.buildGrid([
-                    {field:'operateName',title:'操作名称'}
-            ,        {field:'operateCode',title:'操作代码'}
-            ,crud.createEditColumn()   
+ {field:'operateCode',title:'操作代码'}
+,{field:'operateName',title:'操作名称'}
+,crud.createEditColumn()   
 ]);
 
 </script>
