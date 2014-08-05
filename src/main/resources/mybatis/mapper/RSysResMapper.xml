@@ -15,7 +15,7 @@
 		<include refid="expressionBlock.where" />
 		<choose>
 			<when test="sortname == null">
-				ORDER BY t.sr_id desc
+				ORDER BY t.sr_id ASC
 			</when>
 			<otherwise>
 				ORDER BY ${order}
@@ -85,7 +85,7 @@
 			) sf2 ON sf.`sf_id` = sf2.sf_id
 			
 		) tt ON t.`sr_id` = tt.sr_id
-		ORDER BY t.sr_id DESC 
+		ORDER BY t.sr_id ASC 
 	</select>
 
 </mapper>

@@ -70,6 +70,18 @@
 		<url-pattern>*.do</url-pattern>
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
+	
+	<!-- 数据库监控
+		访问页面:http://localhost/rms/druid/index.html
+	 -->
+	 <servlet>
+	 	<servlet-name>DruidStatView</servlet-name>
+	 	<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+	 </servlet>
+	 <servlet-mapping>
+	 	<servlet-name>DruidStatView</servlet-name>
+	    <url-pattern>/druid/*</url-pattern>
+	 </servlet-mapping>
 
 	<session-config>
 		<session-timeout>20</session-timeout>
