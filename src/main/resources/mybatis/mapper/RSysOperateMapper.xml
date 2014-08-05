@@ -13,7 +13,7 @@
 		<include refid="expressionBlock.where" />
 		<choose>
 			<when test="sortname == null">
-				ORDER BY operate_name asc
+				ORDER BY operate_code asc
 			</when>
 			<otherwise>
 				ORDER BY ${order}

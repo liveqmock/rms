@@ -31,7 +31,7 @@ var MsgUtil = {
 				}
 			});
 		}else{
-			$.messager.alert(title,msg,type);
+			this.getJQ().messager.alert(title,msg,type);
 		}
 		
 	}

@@ -59,7 +59,7 @@
 				<!--登录按钮-->
 				<div class="btn_ok">
 					<div class="login_btn login_btn_ok">
-						<input type="button" class="button" onclick="login()" value="登录">
+						<input id="loginBtn" type="button" class="button" onclick="login()" value="登录">
 					</div>
 				</div>
 			</div>
@@ -79,6 +79,7 @@
 
 var $pswd = $('#password');
 var $username = $('#username');
+var $loginBtn = $('#loginBtn');
 
 function login(){
 	
@@ -91,6 +92,8 @@ function login(){
 	
 	var data = {password:faultylabs.MD5(password),username:username};
 	
+	$loginBtn.prop('disabled',true).val('登录中...');
+	
 	$.ajax({
 		type: "POST",
 		url: 'login.do',
@@ -102,12 +105,13 @@ function login(){
 			if (result.success){
 				window.location = 'login/main.jsp';
 			} else {
-				$pswd.val('');
+				reset();
 				var errorMsg = result.errorMsg;
 				js_alert("mode_password",errorMsg);
 			}
 		},
 		error:function(hxr,type,error){
+			reset();
 			js_alert("mode_password", "后台出错,请查看日志");
 		}
 	});
@@ -139,6 +143,11 @@ function keyPress(event){
 	if(event.keyCode == 13){
 		login();
 	}
+}
+
+function reset(){
+	$pswd.val('');
+	$loginBtn.prop('disabled',false).val('登录');
 }
 
 </script>

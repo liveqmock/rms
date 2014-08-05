@@ -59,7 +59,7 @@
 			<!-- 不需要过滤的url,用逗号隔开 -->
 			<param-name>excludeUrl</param-name>
 			<param-value>
-				,index.jsp
+				index.jsp
 				,login.jsp
 				,login.do
 			</param-value>
