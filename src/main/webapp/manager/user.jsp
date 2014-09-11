@@ -42,7 +42,7 @@
             <td class="fm_lab">用户名:</td><td><input name="username" type="text" class="easyui-validatebox" required="true"></td>
         </tr>
                 <tr>
-            <td class="fm_lab">密码:</td><td><input name="password" type="password" class="easyui-validatebox" required="true"></td>
+            <td class="fm_lab">密码:</td><td><input id="password" name="password" type="password" class="easyui-validatebox" required="true"></td>
         </tr>
             </table>
         </form>
@@ -55,7 +55,7 @@
     <div id="addRoleDlg" class="easyui-dialog" 
     	style="width:500px;height:460px;padding:10px"
     	title="设置角色"
-    	data-options="onClose:Globle.removeIframe('roleFrame')"
+    	data-options="onClose:Globle.clearPanel()"
     	closed="true" modal="true">
     	<div id="roleFrame"></div>
     </div>
@@ -74,10 +74,11 @@ var crud = Crud.create({
     ,formId:'fm'
     ,gridId:'dg'
     ,searchFormId:'schForm'
-    // password输入框需要用MD5加密
-    ,encryptConfig:{encryptFun:function(val){
-    	return faultylabs.MD5(val);
-    },fields:['password']}
+    ,onBeforeSave:function(crud){
+    	var $input = $('#password');
+    	var md5 = faultylabs.MD5($.trim($input.val()))
+		$input.val(md5);
+    }
 });
 
 var buttons = [
@@ -105,10 +106,13 @@ function closeDlg(){
 }
 
 function resetPassword(row){
-	Action.jsonAsyncActByData(ctx + 'resetUserPassword.do',row,function(e){
-		if(e.success){
-			MsgUtil.alert('密码重置成功,新密码为:<strong style="color:red;">' + e.msg + '</strong>');
-		}
+	
+	MsgUtil.confirm("确定给"+row.username+"重置密码吗?",function(){
+		Action.jsonAsyncActByData(ctx + 'resetUserPassword.do',row,function(e){
+			if(e.success){
+				MsgUtil.alert('密码重置成功,新密码为:<strong style="color:red;">' + e.msg + '</strong>');
+			}
+		});
 	});
 }
 </script>

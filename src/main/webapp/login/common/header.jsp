@@ -14,7 +14,7 @@
 <div id="updatePswdDlg" class="easyui-dialog" 
   	style="width:500px;height:250px;padding:10px 20px"
   	title="修改密码" buttons="#updatePswdDlgBtn"
-  	data-options="onClose:Globle.removeIframe('updatePswdFrame')"
+  	data-options="onClose:Globle.clearPanel()"
   	closed="true" modal="true">
   	
   	<div id="updatePswdFrame"></div>

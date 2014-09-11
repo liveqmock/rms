@@ -75,16 +75,22 @@
 		AND sr_id = #{srId,jdbcType=INTEGER}
 	</select>
 	
+	<!-- 获取用户权限的核心SQL
+		r_sys_function:系统功能表,系统功能=资源+操作
+		r_role_permission:角色权限表,存放[角色-系统功能]对应关系
+		r_user_role:用户角色表,存放用户具有哪些角色
+		
+		1. 子查询根据[角色权限表]和[用户角色表]过滤出用户的系统功能(主键sf_id)
+		2. 关联系统功能表
+	-->
 	<select id="findUserSysFunction" resultMap="queryResultMap" parameterType="String">
 		SELECT t.* 
 		FROM r_sys_function t
-		INNER JOIN (
-			SELECT DISTINCT sf.sr_id FROM r_sys_function sf INNER JOIN 
-			(
-				SELECT DISTINCT rp.sf_id FROM r_role_permission rp INNER JOIN r_user_role ur ON rp.role_id = ur.role_id
-				WHERE ur.username = #{username,jdbcType=VARCHAR}
-			) sf2 ON sf.sf_id = sf2.sf_id
-		) tt ON t.sr_id = tt.sr_id
+		INNER JOIN 
+		(
+			SELECT DISTINCT rp.sf_id FROM r_role_permission rp INNER JOIN r_user_role ur ON rp.role_id = ur.role_id
+			WHERE ur.username = #{username,jdbcType=VARCHAR}
+		) tt ON t.sf_id = tt.sf_id
 	</select>
 
 </mapper>

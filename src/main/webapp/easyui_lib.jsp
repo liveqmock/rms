@@ -14,11 +14,11 @@ String debugModel = PropertiesManager.getInstance().get("debugModel");
 // 如果是调试模式
 if("true".equals(debugModel)){
 %>
+<script type="text/javascript" src="${ctx}js/need_compress/Globle.js"></script>
 <script type="text/javascript" src="${ctx}js/need_compress/Action.js"></script>
 <script type="text/javascript" src="${ctx}js/need_compress/Crud.js"></script>
 <script type="text/javascript" src="${ctx}js/need_compress/EventUtil.js"></script>
 <script type="text/javascript" src="${ctx}js/need_compress/FunUtil.js"></script>
-<script type="text/javascript" src="${ctx}js/need_compress/Globle.js"></script>
 <script type="text/javascript" src="${ctx}js/need_compress/HtmlUtil.js"></script>
 <script type="text/javascript" src="${ctx}js/need_compress/MaskUtil.js"></script>
 <script type="text/javascript" src="${ctx}js/need_compress/MsgUtil.js"></script>

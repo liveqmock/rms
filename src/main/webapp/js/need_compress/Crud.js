@@ -11,6 +11,8 @@
  */
 var Crud = (function(){
 	
+	var EF = function(){return true;};
+	
 	var CrudClass = function(param){
 		this.addUrl = param.addUrl;
 		this.listUrl = param.listUrl;
@@ -19,6 +21,7 @@ var Crud = (function(){
 		this.searchFormId = param.searchFormId;
 		this.pk = param.pk;
 		this.encryptConfig = param.encryptConfig;
+		this.onBeforeSave = param.onBeforeSave || EF;
 		
 		this.$dlg = $('#'+param.dlgId);
 		this.$form = $('#'+param.formId);
@@ -97,7 +100,10 @@ var Crud = (function(){
 			this.$form.form('submit',{
 				url: this.submitUrl,
 				onSubmit: function(){
-					self._doEncrypt();
+					var ret = self.onBeforeSave(self);
+					if( (typeof ret != undefined) && ret === false ){
+						return false;
+					}
 					return $(this).form('validate');
 				},
 				success: function(resultTxt){
@@ -112,18 +118,6 @@ var Crud = (function(){
 					}
 				}
 			});
-		}
-		,_doEncrypt:function(){
-			if(this.encryptConfig){
-				var encrypt = this.encryptConfig.encrypt;
-				var fields = this.encryptConfig.fields||[];
-				
-				for(var i=0,len=fields.length; i<len; i++) {
-					var $input = this.getByName(fields[i]);
-					var md5 = faultylabs.MD5($.trim($input.val()))
-					$input.val(md5);
-				}
-			}
 		}
 		,createOperColumn:function(buttons){
 			return Crud.createOperColumn(buttons);
