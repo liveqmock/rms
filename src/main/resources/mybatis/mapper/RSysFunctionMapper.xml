@@ -68,13 +68,6 @@
 		WHERE sf_id = #{sfId,jdbcType=INTEGER}
 	</delete>
 	
-	<select id="findBySrIdOperateCode" resultMap="queryResultMap" parameterType="org.durcframework.rms.entity.RSysFunction">
-		SELECT *
-		FROM r_sys_function
-		WHERE operate_code = #{operateCode,jdbcType=VARCHAR}
-		AND sr_id = #{srId,jdbcType=INTEGER}
-	</select>
-	
 	<!-- 获取用户权限的核心SQL
 		r_sys_function:系统功能表,系统功能=资源+操作
 		r_role_permission:角色权限表,存放[角色-系统功能]对应关系
@@ -92,5 +85,5 @@
 			WHERE ur.username = #{username,jdbcType=VARCHAR}
 		) tt ON t.sf_id = tt.sf_id
 	</select>
-
+	
 </mapper>

@@ -74,7 +74,7 @@ var crud = Crud.create({
 });
 
 var buttons = [
-	{text:'修改权限',onclick:updatePermission}
+	{text:'修改',onclick:updatePermission}
 	,{text:'删除',onclick:delPermission}
 ];
 
@@ -88,7 +88,7 @@ crud.buildGrid([
 function roleFormatter(val,row,index){
 	var roles = row.roles;
 	if(!roles || roles.length == 0){
-		return '无分配角色';
+		return '<span style="color:gray;">无</span>';
 	}
 	
 	var roleNameHtml = [];

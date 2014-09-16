@@ -1,7 +1,10 @@
 package org.durcframework.rms.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.durcframework.controller.CrudController;
 import org.durcframework.processor.JsonObjProcessor;
 import org.durcframework.rms.entity.AddOperateParam;
@@ -16,9 +19,10 @@ import org.durcframework.rms.service.RRoleService;
 import org.durcframework.rms.service.RSysFunctionService;
 import org.durcframework.rms.service.RSysOperateService;
 import org.durcframework.rms.service.RSysResService;
+import org.durcframework.util.JsonUtil;
+import org.durcframework.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -83,6 +87,22 @@ public class RSysFunctionController extends
     @RequestMapping("/delRSysFunction.do")
     public ModelAndView delRSysFunction(RSysFunction sysFunction) {
         return this.delete(sysFunction);
+    }
+    
+    @RequestMapping("/listOperateUse.do")
+    public ModelAndView listOperateUse(String operateCode){ 
+    	
+    	List<RSysFunction> list = this.getService().getByOperateCode(operateCode);
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	boolean operateCodeUsed = CollectionUtils.isNotEmpty(list);
+    	
+    	map.put("operateCodeUsed", operateCodeUsed);
+    	map.put("operateCodeUsedList", list);
+    	
+    	String json = JsonUtil.toJsonString(map);
+    	
+    	return ResultUtil.buildModelAndView(json);
     }
     
 }

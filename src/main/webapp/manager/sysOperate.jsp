@@ -34,9 +34,19 @@
         <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="crud.closeDlg(); return false;">取消</a>
     </div>
     
+    <div id="dlgDel" class="easyui-dialog" style="width:360px;height:280px;padding:10px 20px"
+            closed="true" modal="true" title="删除操作" buttons="#dlgdlgDel-buttons">
+    	<span style="color:red;">该操作正在被使用,无法删除.</span>
+    	<div id="delGrid"></div>
+    </div>
+    <div id="dlgdlgDel-buttons">
+        <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="$('#dlgDel').dialog('close'); return false;">关闭</a>
+    </div>
+    
 <jsp:include page="../easyui_lib.jsp"></jsp:include>
 <script type="text/javascript">
 var that = this;
+var $dlgDel = $('#dlgDel');
 var crud = Crud.create({
     pk:'operateCode'
     ,listUrl:ctx + 'listRSysOperate.do'
@@ -48,11 +58,48 @@ var crud = Crud.create({
     ,gridId:'dg'
 });
 
+var buttons = [
+	{text:'修改',onclick:function(row){
+		crud.update(row);
+	}}
+	,{text:'删除',onclick:function(row){
+		del(row);
+	}}
+];
+           
 crud.buildGrid([
  {field:'operateCode',title:'操作代码'}
 ,{field:'operateName',title:'操作名称'}
-,crud.createEditColumn()   
+,crud.createOperColumn(buttons)
 ]);
+
+$('#delGrid').datagrid({
+	columns:[[    
+    	{field:'funcName',title:'使用地方',width:200}
+	]]
+	,height:150
+	,fitColumns:true
+	,striped:true
+})
+
+function del(row){
+	if(row){
+		delRow = row;
+		Action.post(ctx + 'listOperateUse.do',row,function(r){
+			if(r.operateCodeUsed){
+				var title = '删除[<span style="color:red;">'+row.operateCode+'</span>]'
+				$('#delGrid').datagrid('loadData',r.operateCodeUsedList);
+				$('#dlgDel').dialog('setTitle',title).dialog('open');
+			}else{
+				crud.del(row);
+			}
+		})
+	}
+}
+
+function viewOperateUse(){
+	$('#delGridCont').show();
+}
 
 </script>
 </body>

@@ -8,4 +8,5 @@ import org.durcframework.dao.BaseDao;
 public interface RUserRoleDao extends BaseDao<RUserRole> {
 	void delAllUserRole(@Param("username")String username);
 	void setUserRole(UserRoleParam userRoleParam);
+	void delByRoleId(@Param("roleId")int roleId);
 }

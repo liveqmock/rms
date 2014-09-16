@@ -32,9 +32,24 @@
         <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="crud.closeDlg(); return false;">取消</a>
     </div>
     
+    <div id="dlgDel" class="easyui-dialog" style="width:360px;height:280px;padding:10px 20px"
+            closed="true" modal="true" title="删除角色" buttons="#dlgdlgDel-buttons">
+    	<div id="delUsernameGrid"></div>
+    	<span style="color:red;">删除后,以上成员将失去该角色,确定删除吗?</span>
+    </div>
+    <div id="dlgdlgDel-buttons">
+        <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="doDel(); return false;">确定</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="$('#dlgDel').dialog('close'); return false;">取消</a>
+    </div>
+
+    
+    
 <jsp:include page="../easyui_lib.jsp"></jsp:include>
 <script type="text/javascript">
 var that = this;
+var $dlgDel = $('#dlgDel');
+var delRow;
+
 var crud = Crud.create({
     pk:'roleId'
     ,listUrl:ctx + 'listRRole.do'
@@ -46,10 +61,72 @@ var crud = Crud.create({
     ,gridId:'dg'
 });
 
+var buttons = [
+	{text:'修改',onclick:function(row){
+		crud.update(row);
+	}}
+	,{text:'删除',onclick:function(row){
+		del(row);
+	}}
+];
+
 crud.buildGrid([
 {field:'roleName',title:'角色名'}
-,crud.createEditColumn()   
+,crud.createOperColumn(buttons)
 ]);
+
+$('#delUsernameGrid').datagrid({
+	columns:[[    
+    	{field:'username',title:'用户名',width:100}  
+	]]
+	,height:150
+	,fitColumns:true
+	,striped:true
+})
+
+
+function del(row){
+	if (row){
+		delRow = row;
+		var userRoles = listRoleUser(row);
+
+		if(userRoles.length > 0){
+			var title = '删除[<span style="color:red;">'+row.roleName+'</span>]角色';
+			$('#delUsernameGrid').datagrid('loadData',userRoles);
+			$dlgDel.dialog('setTitle',title).dialog('open');
+		}else{
+			MsgUtil.confirm('确定删除该角色吗?',function(){
+				doDel(row);
+			});
+		}
+	}
+}
+
+function doDel(){
+	if(delRow){
+		Action.post(crud.delUrl,delRow,function(result){
+			Action.execResult(result,function(){
+				$dlgDel.dialog('close');
+				crud.runGridMethod('reload');	// reload the user data
+			});
+		});
+	}
+}
+
+
+function listRoleUser(row){
+	var ret = [];
+	
+	Action.postSync(ctx + 'listRoleRelationInfo.do'
+			,{roleId:row.roleId},function(result){
+		if(result.success){
+			ret = result.userRoles;
+		}
+	});
+	
+	return ret;
+}
+
 </script>
 </body>
 </html>

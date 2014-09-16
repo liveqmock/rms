@@ -8,6 +8,7 @@ import org.durcframework.rms.dao.RRolePermissionDao;
 import org.durcframework.rms.entity.FunctionRoleParam;
 import org.durcframework.rms.entity.RRolePermission;
 import org.durcframework.rms.entity.RSysFunction;
+import org.durcframework.rms.entity.RoleFunction;
 import org.durcframework.service.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,5 +66,13 @@ public class RRolePermissionService extends CrudService<RRolePermission, RRolePe
 		dataPermissionService.delBySfId(entity.getSfId());
 		
 		this.getDao().delBySfId(entity.getSfId());
+	}
+	
+	public List<RoleFunction> getRoleFunctionInfo(int roleId){
+		return this.getDao().findRoleFunc(roleId);
+	}
+	
+	public void delByRoleId(int roleId){
+		this.getDao().delByRoleId(roleId);
 	}
 }

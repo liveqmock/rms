@@ -75,11 +75,11 @@ CREATE TABLE `r_role` (
   `role_id` int(11) NOT NULL auto_increment,
   `role_name` varchar(50) NOT NULL,
   PRIMARY KEY  (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Data for the table `r_role` */
 
-insert  into `r_role`(`role_id`,`role_name`) values (1,'销售人员'),(2,'运营人员'),(3,'产品经理'),(4,'PM'),(5,'售后'),(6,'超级管理员'),(7,'大区经理'),(8,'客服人员'),(9,'百度人员'),(10,'腾讯人员'),(11,'阿里人员'),(12,'BAT');
+insert  into `r_role`(`role_id`,`role_name`) values (1,'销售人员'),(2,'运营人员'),(3,'产品经理'),(4,'PM'),(5,'售后'),(6,'超级管理员'),(7,'大区经理'),(8,'客服人员'),(9,'百度人员'),(10,'腾讯人员'),(11,'阿里人员'),(12,'BAT'),(13,'百度贴吧管理员');
 
 /*Table structure for table `r_role_permission` */
 
@@ -93,7 +93,7 @@ CREATE TABLE `r_role_permission` (
 
 /*Data for the table `r_role_permission` */
 
-insert  into `r_role_permission`(`role_id`,`sf_id`) values (6,3),(6,4),(6,6),(6,7),(6,8),(6,20),(9,9),(9,10),(9,11),(10,15),(10,16),(11,12),(11,13),(11,14),(12,9),(12,10),(12,11),(12,12),(12,13),(12,14),(12,15),(12,16),(12,18),(12,19);
+insert  into `r_role_permission`(`role_id`,`sf_id`) values (6,3),(6,4),(6,6),(6,7),(6,8),(6,20),(9,9),(9,10),(9,11),(10,15),(10,16),(11,12),(11,13),(11,14),(12,9),(12,10),(12,11),(12,12),(12,13),(12,14),(12,15),(12,16),(12,18),(12,19),(13,9),(13,10);
 
 /*Table structure for table `r_sys_function` */
 
@@ -155,7 +155,7 @@ CREATE TABLE `r_user` (
 
 /*Data for the table `r_user` */
 
-insert  into `r_user`(`username`,`password`,`add_time`,`last_login_date`) values ('admin','1000:7377e47393d04c49afc7bd02eeab77fa93e92f847d62316f:ebfe6fde6b64b18ea1ed938b0b66a2937c058d56830a09bc','2014-07-21 15:01:18','2014-08-05 11:24:38'),('Jack','1000:7a160a510f8ca5e68f491117f87c221448d3e2f83bc619a2:fdac266c302345014cb2ed5d87276500b0188314be335834','2014-07-21 17:42:15','2014-07-21 17:43:44'),('Toom','1000:3395d895d42b72eef3eb9da7f9c712c17ee96bfe9e1338e1:acdcfa091eef97efc23fc47a5467b33d12af367401029847','2014-07-21 00:00:00','2014-07-31 15:09:27'),('user_ali','1000:069a760ed3ab5493e3261f9493038c4d4ec2447235b8b69e:43e9dba3eeaae73a5f094f72662eca3c73e5c07bbb4c9c85','2014-07-29 17:02:51','2014-07-29 17:22:08'),('user_baidu','1000:21e8d2013ab3777086ea804673804a21c50d790ccf2fc857:a19f5124721fdeaa63fc210382ef7a18f1dd9596d3f71fad','2014-07-29 16:47:21','2014-07-30 16:32:21'),('user_baidu2','1000:66a1968e3be1e87faf4b61680fb3167059574ba040d3a17b:93cf0abe18a3a055cea4aa1a0c8f1602344b0fafc2fca52e','2014-07-30 15:01:25','2014-07-30 15:02:17'),('user_BAT','1000:2ecc01bff75d8e68390e3fd4547a2ad250181221ab796302:63f03efb32ee55b5f7a71ea4dc7e7013373bd452f4a450ae','2014-07-29 17:03:05','2014-08-01 15:45:48'),('user_qq','1000:a52ec23aaa533ae1642da3186a4687e70eb80afd4584f30c:d90e33a3f60f31f3b2eb06165eb7cd544b0bdbc397bc2d09','2014-07-29 17:02:41','2014-07-29 17:21:58');
+insert  into `r_user`(`username`,`password`,`add_time`,`last_login_date`) values ('admin','1000:7377e47393d04c49afc7bd02eeab77fa93e92f847d62316f:ebfe6fde6b64b18ea1ed938b0b66a2937c058d56830a09bc','2014-07-21 15:01:18','2014-09-11 17:26:55'),('user_ali','1000:069a760ed3ab5493e3261f9493038c4d4ec2447235b8b69e:43e9dba3eeaae73a5f094f72662eca3c73e5c07bbb4c9c85','2014-07-29 17:02:51','2014-09-11 17:03:16'),('user_baidu','1000:21e8d2013ab3777086ea804673804a21c50d790ccf2fc857:a19f5124721fdeaa63fc210382ef7a18f1dd9596d3f71fad','2014-07-29 16:47:21','2014-09-11 17:01:33'),('user_baidu2','1000:66a1968e3be1e87faf4b61680fb3167059574ba040d3a17b:93cf0abe18a3a055cea4aa1a0c8f1602344b0fafc2fca52e','2014-07-30 15:01:25','2014-09-11 17:27:22'),('user_BAT','1000:2ecc01bff75d8e68390e3fd4547a2ad250181221ab796302:63f03efb32ee55b5f7a71ea4dc7e7013373bd452f4a450ae','2014-07-29 17:03:05','2014-09-11 17:02:53'),('user_qq','1000:a52ec23aaa533ae1642da3186a4687e70eb80afd4584f30c:d90e33a3f60f31f3b2eb06165eb7cd544b0bdbc397bc2d09','2014-07-29 17:02:41','2014-07-29 17:21:58');
 
 /*Table structure for table `r_user_role` */
 
@@ -169,7 +169,7 @@ CREATE TABLE `r_user_role` (
 
 /*Data for the table `r_user_role` */
 
-insert  into `r_user_role`(`username`,`role_id`) values ('admin',6),('Jack',1),('Toom',3),('Toom',4),('user_ali',11),('user_baidu',9),('user_baidu2',9),('user_BAT',12),('user_qq',10);
+insert  into `r_user_role`(`username`,`role_id`) values ('admin',6),('Jack',1),('Lucy',9),('Toom',3),('Toom',4),('user_ali',11),('user_baidu',9),('user_baidu2',13),('user_BAT',12),('user_qq',10);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

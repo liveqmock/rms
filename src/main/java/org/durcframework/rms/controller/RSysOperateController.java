@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RSysOperateController extends
         CrudController<RSysOperate, RSysOperateService> {
-
+	
     @RequestMapping("/addRSysOperate.do")
     public ModelAndView addRSysOperate(RSysOperate entity) {
         return this.save(entity);

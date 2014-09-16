@@ -68,7 +68,7 @@ var buttons = [
 		crud.update(row);
 	}}
 	,{text:'删除',onclick:function(row){
-		crud.del({srId:row.srId});
+		crud.del(row);
 	},showFun:function(row){
 		// 如果有子节点,则不显示删除按钮
 		if(row.children && row.children.length > 0){

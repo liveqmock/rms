@@ -71,12 +71,20 @@
 		WHERE sr_id = #{srId,jdbcType=INTEGER}
 	</delete>
 	
+	<!-- 获取用户菜单SQL
+		r_sys_function:系统功能表,系统功能=资源+操作
+		r_role_permission:角色权限表,存放[角色-系统功能]对应关系
+		r_user_role:用户角色表,存放用户具有哪些角色
+		r_sys_res:系统资源,即菜单表
+		
+		1. 子查询根据[角色权限表]和[用户角色表]过滤出用户的系统功能(主键sf_id)
+		2. 关联系统功能表,返回sr_id
+		3. 关联r_sys_res表,返回用户菜单
+	 -->
 	<select id="findUserMenu" resultMap="queryResultMap" parameterType="String">
-		SELECT 
-		  t.* 
-		FROM
-		  r_sys_res t 
-		  INNER JOIN 
+		SELECT t.* 
+		FROM r_sys_res t 
+		INNER JOIN 
 		(
 			SELECT DISTINCT sf.`sr_id` FROM r_sys_function sf INNER JOIN 
 			(

@@ -23,6 +23,9 @@ var Action = {
 			}
 		});
 	},
+	post:function(url,data,succFun){
+		this.jsonAsyncActByData(url,data,succFun);
+	},
 	/**
 	 * 同步请求
 	 */
@@ -42,6 +45,9 @@ var Action = {
 			}
 		});
 	}
+	,postSync:function(url,data,succFun){
+		this.jsonSyncActByData(url,data,succFun);
+	}
 	/**
 	 * 获取url后面的参数
 	 */
@@ -60,6 +66,19 @@ var Action = {
 			}
 		}
 		return "";
+	}
+	,execResult:function(result,successFun){
+		if(result && result.success){
+			successFun(result);
+		}else{
+			var errorMsg = result.errorMsg;
+			errorMsg = errorMsg || this.buildValidateError(result);
+			MsgUtil.error(errorMsg);
+		}
+	}
+	,buildValidateError:function(result){
+		var validateErrors = result.validateErrors;
+		return validateErrors.join('<br>')
 	}
 	,_showError:function(msg,title){
 		title = title || "提示";

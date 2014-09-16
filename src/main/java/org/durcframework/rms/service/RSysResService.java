@@ -5,13 +5,17 @@ import java.util.List;
 import org.durcframework.expression.ExpressionQuery;
 import org.durcframework.expression.subexpression.ValueExpression;
 import org.durcframework.rms.dao.RSysResDao;
+import org.durcframework.rms.entity.RSysFunction;
 import org.durcframework.rms.entity.RSysRes;
 import org.durcframework.rms.util.TreeUtil;
 import org.durcframework.service.CrudService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RSysResService extends CrudService<RSysRes, RSysResDao> {
+	@Autowired
+	private RSysFunctionService functionService;
 	
 	/**
 	 * 判断是否有子节点
@@ -38,6 +42,19 @@ public class RSysResService extends CrudService<RSysRes, RSysResDao> {
 		list = TreeUtil.buildTreeData(list);
 		
 		return list;
+	}
+	
+	/**
+	 * 删除资源
+	 * 首先删除对应的系统功能,在删除自身
+	 */
+	@Override
+	public void del(RSysRes entity) {
+		List<RSysFunction> sysFuncs = functionService.getBySrId(entity.getSrId());
+		for (RSysFunction rSysFunction : sysFuncs) {
+			functionService.del(rSysFunction);
+		}
+		super.del(entity);
 	}
 	
 }

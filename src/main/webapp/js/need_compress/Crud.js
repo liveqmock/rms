@@ -84,13 +84,11 @@ var Crud = (function(){
 			if (row){
 				$.messager.confirm('Confirm',msg,function(r){
 					if (r){
-						$.post(self.delUrl,row,function(result){
-							if (result.success){
+						Action.post(self.delUrl,row,function(result){
+							Action.execResult(result,function(result){
 								self.runGridMethod('reload');	// reload the user data
-							} else {
-								showMsg(result.errorMsg);
-							}
-						},'json');
+							});
+						});
 					}
 				});
 			}
@@ -108,14 +106,10 @@ var Crud = (function(){
 				},
 				success: function(resultTxt){
 					var result = $.parseJSON(resultTxt);
-					if (result.success){
+					Action.execResult(result,function(result){
 						self.$dlg.dialog('close');		// close the dialog
 						self.runGridMethod('reload');	// reload the user data
-					} else {
-						var errorMsg = result.errorMsg;
-						errorMsg = errorMsg || buildValidateError(result);
-						showMsg(errorMsg);
-					}
+					});
 				}
 			});
 		}
@@ -177,24 +171,6 @@ var Crud = (function(){
 		,closeDlg:function(){
 			this.$dlg.dialog('close');
 		}
-	}
-	
-	function showMsg(errorMsg){
-		var $ = parent.$ || $;
-		$.messager.show({
-			title: '提示',
-			msg: errorMsg,
-			style:{
-				right:'',
-				top:document.body.scrollTop+document.documentElement.scrollTop,
-				bottom:''
-			}
-		});
-	}
-	
-	function buildValidateError(result){
-		var validateErrors = result.validateErrors;
-		return validateErrors.join('<br>')
 	}
 	
 	return {

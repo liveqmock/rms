@@ -13,6 +13,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RUserController extends
         CrudController<RUser, RUserService> {
+	
+	// 日期格式化
+	@Override
+	protected String getDateFormatPattern() {
+		return "yyyy-MM-dd HH:mm:ss";
+	}
 
     @RequestMapping("/addRUser.do")
     public ModelAndView addRUser(RUser entity) {
