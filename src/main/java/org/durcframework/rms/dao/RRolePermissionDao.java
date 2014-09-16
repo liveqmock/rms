@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.durcframework.dao.BaseDao;
 import org.durcframework.rms.entity.FunctionRoleParam;
 import org.durcframework.rms.entity.RRolePermission;
-import org.durcframework.rms.entity.RoleFunction;
 
 public interface RRolePermissionDao extends BaseDao<RRolePermission> {
 	void delBySfId(@Param("sfId") int sfId);
