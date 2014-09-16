@@ -72,7 +72,10 @@ public class RRolePermissionService extends CrudService<RRolePermission, RRolePe
 		return this.getDao().findRoleFunc(roleId);
 	}
 	
-	public void delByRoleId(int roleId){
-		this.getDao().delByRoleId(roleId);
+	public List<RRolePermission> getRolePermissionByRoleId(int roleId){
+		ExpressionQuery query = ExpressionQuery.buildQueryAll();
+		query.add(new ValueExpression("role_id", roleId));
+		
+		return this.find(query);
 	}
 }

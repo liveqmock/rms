@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.durcframework.rms.dao.RRoleDao;
 import org.durcframework.rms.entity.RRole;
+import org.durcframework.rms.entity.RRolePermission;
 import org.durcframework.rms.entity.RSysFunction;
 import org.durcframework.service.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,10 @@ public class RRoleService extends CrudService<RRole, RRoleDao> {
 	@Override
 	public void del(RRole entity) {
 		userRoleService.delByRoleId(entity.getRoleId());
-		permissionService.delByRoleId(entity.getRoleId());
+		List<RRolePermission> rolePermissions = permissionService.getRolePermissionByRoleId(entity.getRoleId());
+		for (RRolePermission rRolePermission : rolePermissions) {
+			permissionService.del(rRolePermission);
+		}
 		this.getDao().del(entity);
 	}
 	

@@ -13,5 +13,4 @@ public interface RRolePermissionDao extends BaseDao<RRolePermission> {
 	void setFunctionRole(FunctionRoleParam functionRoleParam);
 	List<RRolePermission> findRolePermissionByFunction(@Param("username")String username);
 	List<RoleFunction> findRoleFunc(@Param("roleId")int roleId);
-	void delByRoleId(@Param("roleId")int roleId);
 }
