@@ -89,12 +89,4 @@
 	)
 	</select>
 	
-	<select id="findRoleFunc" parameterType="int" resultType="org.durcframework.rms.entity.RoleFunction">
-	SELECT 
-		rp.`role_id` as roleId
-		,sf.`func_name` as funcName
-	FROM `r_role_permission` rp INNER JOIN `r_sys_function` sf ON rp.`sf_id` = sf.`sf_id`
-	WHERE rp.`role_id` = #{roleId,jdbcType=INTEGER}
-	</select>
-	
 </mapper>
