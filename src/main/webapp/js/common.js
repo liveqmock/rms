@@ -23,6 +23,9 @@ var Action = {
 			}
 		});
 	},
+	post:function(url,data,succFun){
+		this.jsonAsyncActByData(url,data,succFun);
+	},
 	/**
 	 * 同步请求
 	 */
@@ -42,6 +45,9 @@ var Action = {
 			}
 		});
 	}
+	,postSync:function(url,data,succFun){
+		this.jsonSyncActByData(url,data,succFun);
+	}
 	/**
 	 * 获取url后面的参数
 	 */
@@ -60,6 +66,19 @@ var Action = {
 			}
 		}
 		return "";
+	}
+	,execResult:function(result,successFun){
+		if(result && result.success){
+			successFun(result);
+		}else{
+			var errorMsg = result.errorMsg;
+			errorMsg = errorMsg || this.buildValidateError(result);
+			MsgUtil.error(errorMsg);
+		}
+	}
+	,buildValidateError:function(result){
+		var validateErrors = result.validateErrors;
+		return validateErrors.join('<br>')
 	}
 	,_showError:function(msg,title){
 		title = title || "提示";
@@ -89,13 +108,17 @@ var Action = {
  */
 var Crud = (function(){
 	
+	var EF = function(){return true;};
+	
 	var CrudClass = function(param){
 		this.addUrl = param.addUrl;
 		this.listUrl = param.listUrl;
 		this.updateUrl = param.updateUrl;
 		this.delUrl = param.delUrl;
+		this.searchFormId = param.searchFormId;
 		this.pk = param.pk;
 		this.encryptConfig = param.encryptConfig;
+		this.onBeforeSave = param.onBeforeSave || EF;
 		
 		this.$dlg = $('#'+param.dlgId);
 		this.$form = $('#'+param.formId);
@@ -131,6 +154,13 @@ var Crud = (function(){
 				}
 			}
 		}
+		,load:function(param){
+			this.runGridMethod('load',param);
+		}
+		,search:function(){
+			var data = Crud.getFormData(this.searchFormId);
+			this.load(data);
+		}
 		,runGridMethod:function(methodName,param){
 			this.$grid[this.gridType](methodName,param);
 		}
@@ -151,13 +181,11 @@ var Crud = (function(){
 			if (row){
 				$.messager.confirm('Confirm',msg,function(r){
 					if (r){
-						$.post(self.delUrl,row,function(result){
-							if (result.success){
+						Action.post(self.delUrl,row,function(result){
+							Action.execResult(result,function(result){
 								self.runGridMethod('reload');	// reload the user data
-							} else {
-								showMsg(result.errorMsg);
-							}
-						},'json');
+							});
+						});
 					}
 				});
 			}
@@ -167,33 +195,20 @@ var Crud = (function(){
 			this.$form.form('submit',{
 				url: this.submitUrl,
 				onSubmit: function(){
-					self._doEncrypt();
+					var ret = self.onBeforeSave(self);
+					if( (typeof ret != undefined) && ret === false ){
+						return false;
+					}
 					return $(this).form('validate');
 				},
 				success: function(resultTxt){
 					var result = $.parseJSON(resultTxt);
-					if (result.success){
+					Action.execResult(result,function(result){
 						self.$dlg.dialog('close');		// close the dialog
 						self.runGridMethod('reload');	// reload the user data
-					} else {
-						var errorMsg = result.errorMsg;
-						errorMsg = errorMsg || buildValidateError(result);
-						showMsg(errorMsg);
-					}
+					});
 				}
 			});
-		}
-		,_doEncrypt:function(){
-			if(this.encryptConfig){
-				var encrypt = this.encryptConfig.encrypt;
-				var fields = this.encryptConfig.fields||[];
-				
-				for(var i=0,len=fields.length; i<len; i++) {
-					var $input = this.getByName(fields[i]);
-					var md5 = faultylabs.MD5($.trim($input.val()))
-					$input.val(md5);
-				}
-			}
 		}
 		,createOperColumn:function(buttons){
 			return Crud.createOperColumn(buttons);
@@ -255,24 +270,6 @@ var Crud = (function(){
 		}
 	}
 	
-	function showMsg(errorMsg){
-		var $ = parent.$ || $;
-		$.messager.show({
-			title: '提示',
-			msg: errorMsg,
-			style:{
-				right:'',
-				top:document.body.scrollTop+document.documentElement.scrollTop,
-				bottom:''
-			}
-		});
-	}
-	
-	function buildValidateError(result){
-		var validateErrors = result.validateErrors;
-		return validateErrors.join('<br>')
-	}
-	
 	return {
 		create:function(param){
 			return new CrudClass(param);
@@ -293,10 +290,34 @@ var Crud = (function(){
 						html.push('<a href="javascript:void(0)" onclick="'+FunUtil.createFun(button,'onclick',row,val,index)+'">'+button.text+'</a>')
 					}
 				}
-				return html.join(' | ');
+				return html.join('<span style="color:#808080;padding:0 4px;">|</span>');
 			}
 			
 			return formatterHandler;
+		}
+		/**
+		 * 获取表单提交参数
+		 */
+		,getFormData:function(searchFormId){
+			var fields = $("#"+searchFormId).serializeArray();
+			var obj = {};
+			$.each( fields, function(i, field){
+				var addValue = field.value;
+				// 如果有同样的参数名,他们的值要变成数组形式保存
+				if(obj[field.name]){
+					var val = obj[field.name];
+		
+					if($.isArray(val)){
+						val.push(addValue);
+					}else{
+						obj[field.name] = [val,addValue];
+					}
+				}else{
+					obj[field.name] = addValue;
+				}
+			});
+			
+			return obj;
 		}
 	};
 	
@@ -431,16 +452,71 @@ var Globle = {
 		});
 	}
 	// 移除某个节点下的iframe.
-	,removeIframe:function(dlgId){
+	,clearPanel:function(){
 		return function(){
-			$('#'+dlgId).find('iframe').remove();
+			var frame = $('iframe', this);
+			if(frame.length > 0){
+				frame.remove();
+			}
 		}
 	}
-	
 }
 
+/**
+ * panel关闭时回收内存，主要用于layout使用iframe嵌入网页时的内存泄漏问题
+ */
+$.fn.panel.defaults.onBeforeDestroy = function() {
+	var frame = $('iframe', this);
+	try {
+		if (frame.length > 0) {
+			for ( var i = 0; i < frame.length; i++) {
+				frame[i].src = '';
+				frame[i].contentWindow.document.write('');
+				frame[i].contentWindow.close();
+			}
+			frame.remove();
+			if (navigator.userAgent.indexOf("MSIE") > 0) {// IE特有回收内存方法
+				try {
+					CollectGarbage();
+				} catch (e) {
+				}
+			}
+		}
+	} catch (e) {
+	}
+};
 
-
+/**
+ * 防止panel/window/dialog组件超出浏览器边界
+ * @param left
+ * @param top
+ */
+var easyuiPanelOnMove = function(left, top) {
+	var l = left;
+	var t = top;
+	if (l < 1) {
+		l = 1;
+	}
+	if (t < 1) {
+		t = 1;
+	}
+	var width = parseInt($(this).parent().css('width')) + 14;
+	var height = parseInt($(this).parent().css('height')) + 14;
+	var right = l + width;
+	var buttom = t + height;
+	var browserWidth = $(window).width();
+	var browserHeight = $(window).height();
+	if (right > browserWidth) {
+		l = browserWidth - width;
+	}
+	if (buttom > browserHeight) {
+		t = browserHeight - height;
+	}
+	$(this).parent().css({/* 修正面板位置 */
+		left : l,
+		top : t
+	});
+};
 var HtmlUtil = (function(){
 	
 	var parseHtmlMap = {
@@ -551,7 +627,7 @@ var MsgUtil = {
 				}
 			});
 		}else{
-			$.messager.alert(title,msg,type);
+			this.getJQ().messager.alert(title,msg,type);
 		}
 		
 	}
