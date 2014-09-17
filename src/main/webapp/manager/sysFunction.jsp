@@ -98,13 +98,13 @@ function roleFormatter(val,row,index){
 	}
 	
 	// 所有的角色名
-	var roleNameStr = roleNameHtml.join(',');
+	var roleNameStr = roleNameHtml.join('、');
 	
 	var resultStr = ['<div title="'+roleNameStr+'">'];
 	
 	if(roleNameHtml.length > 10){ // 超过10个角色就显示前10个
 		for(var i=0; i<10; i++) {
-			resultStr.push(roleNameHtml[i]) + ",";
+			resultStr.push(roleNameHtml[i] + "、");
 		}
 		resultStr.push('...');
 	}else{

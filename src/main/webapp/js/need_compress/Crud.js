@@ -193,7 +193,7 @@ var Crud = (function(){
 						html.push('<a href="javascript:void(0)" onclick="'+FunUtil.createFun(button,'onclick',row,val,index)+'">'+button.text+'</a>')
 					}
 				}
-				return html.join(' | ');
+				return html.join('<span style="color:#808080;padding:0 4px;">|</span>');
 			}
 			
 			return formatterHandler;
