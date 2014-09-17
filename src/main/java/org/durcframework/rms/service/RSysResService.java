@@ -5,7 +5,6 @@ import java.util.List;
 import org.durcframework.expression.ExpressionQuery;
 import org.durcframework.expression.subexpression.ValueExpression;
 import org.durcframework.rms.dao.RSysResDao;
-import org.durcframework.rms.entity.RSysFunction;
 import org.durcframework.rms.entity.RSysRes;
 import org.durcframework.rms.util.TreeUtil;
 import org.durcframework.service.CrudService;
@@ -50,11 +49,8 @@ public class RSysResService extends CrudService<RSysRes, RSysResDao> {
 	 */
 	@Override
 	public void del(RSysRes entity) {
-		List<RSysFunction> sysFuncs = functionService.getBySrId(entity.getSrId());
-		for (RSysFunction rSysFunction : sysFuncs) {
-			functionService.del(rSysFunction);
-		}
-		super.del(entity);
+		functionService.delBySrId(entity.getSrId());
+		this.getDao().del(entity);
 	}
 	
 }

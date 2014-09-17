@@ -63,20 +63,12 @@
 		WHERE role_id = #{roleId,jdbcType=INTEGER}
 	</delete>
 	
-	<select id="findRoleByUsername" parameterType="String" resultMap="queryResultMap">
-	SELECT * FROM `r_role` r
-	WHERE r.`role_id` IN (
-		SELECT t.`role_id` FROM `r_user_role` t
-		WHERE t.`username` = (SELECT u.`username` FROM `r_user` u WHERE u.`username`=#{username,jdbcType=VARCHAR})
-	)
-	</select>
-	
-	<select id="findRoleByFunction" parameterType="int" resultMap="queryResultMap">
-		SELECT * FROM `r_role` t
-		WHERE t.`role_id` IN 
+	<select id="findRoleByFunction" parameterType="int" resultMap="queryResultMap">	
+		SELECT t.* FROM `r_role` t
+		INNER JOIN 
 		(
 			SELECT tt.`role_id` FROM `r_role_permission` tt WHERE tt.`sf_id` = #{sfId,jdbcType=INTEGER}
-		)
+		) t2 ON t.`role_id` = t2.role_id
 	</select>
 	
 </mapper>

@@ -61,12 +61,17 @@
 
 	<delete id="del" parameterType="org.durcframework.rms.entity.RRolePermission">
 		DELETE FROM r_role_permission
-		WHERE rp_id = #{rpId,jdbcType=INTEGER}
+		WHERE role_id = #{roleId,jdbcType=INTEGER} AND sf_id = #{sfId,jdbcType=INTEGER}
 	</delete>
 	
 	<delete id="delBySfId" parameterType="int">
 		DELETE FROM r_role_permission
 		WHERE sf_id = #{sfId,jdbcType=INTEGER}
+	</delete>
+	
+	<delete id="delByRoleId" parameterType="int">
+		DELETE FROM r_role_permission
+		WHERE role_id = #{roleId,jdbcType=INTEGER}
 	</delete>
 	
 	<insert id="setFunctionRole" parameterType="org.durcframework.rms.entity.FunctionRoleParam">
@@ -80,13 +85,5 @@
 		(#{roleId,jdbcType=INTEGER},#{sfId,jdbcType=VARCHAR})
 		</foreach>
 	</insert>
-	
-	<select id="findRolePermissionByFunction" parameterType="String" resultMap="queryResultMap">
-	SELECT * FROM `r_role_permission` r
-	WHERE r.`role_id` IN (
-		SELECT t.`role_id` FROM `r_user_role` t
-		WHERE t.`username` = (SELECT u.`username` FROM `r_user` u WHERE u.`username`=#{username,jdbcType=VARCHAR})
-	)
-	</select>
 	
 </mapper>

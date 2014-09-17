@@ -5,7 +5,6 @@ import java.util.List;
 import org.durcframework.expression.ExpressionQuery;
 import org.durcframework.expression.subexpression.ValueExpression;
 import org.durcframework.rms.dao.RSysFunctionDao;
-import org.durcframework.rms.entity.RRolePermission;
 import org.durcframework.rms.entity.RSysFunction;
 import org.durcframework.service.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,8 @@ public class RSysFunctionService extends CrudService<RSysFunction, RSysFunctionD
 	 */
 	@Override
 	public void del(RSysFunction sysFunction) {
-		RRolePermission rolePermission = new RRolePermission();
-		rolePermission.setSfId(sysFunction.getSfId());
 		// 先删除角色
-		rolePermissionService.del(rolePermission);
+		rolePermissionService.delBySfId(sysFunction.getSfId());
 		
 		this.getDao().del(sysFunction);
 	}
@@ -46,7 +43,18 @@ public class RSysFunctionService extends CrudService<RSysFunction, RSysFunctionD
     	return find(query);
 	}
 	
-	public List<RSysFunction> getBySrId(int srId){
+	/**
+	 * 根据资源ID删除系统功能
+	 * @param srId
+	 */
+	public void delBySrId(int srId){
+		List<RSysFunction> sysFuncs = getBySrId(srId);
+		for (RSysFunction rSysFunction : sysFuncs) {
+			del(rSysFunction);
+		}
+	}
+	
+	private List<RSysFunction> getBySrId(int srId){
 		ExpressionQuery query = ExpressionQuery.buildQueryAll();
     	query.add(new ValueExpression("sr_id", srId));
     	

@@ -8,9 +8,5 @@ import org.durcframework.rms.entity.RRole;
 
 public interface RRoleDao extends BaseDao<RRole> {
 	
-	List<RRole> findRoleByUsername(@Param("username") String username);
-	
 	List<RRole> findRoleByFunction(@Param("sfId") int sfId);
-	
-	
 }

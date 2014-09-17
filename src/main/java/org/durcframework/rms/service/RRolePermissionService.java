@@ -9,24 +9,11 @@ import org.durcframework.rms.entity.FunctionRoleParam;
 import org.durcframework.rms.entity.RRolePermission;
 import org.durcframework.rms.entity.RSysFunction;
 import org.durcframework.service.CrudService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RRolePermissionService extends CrudService<RRolePermission, RRolePermissionDao> {
 
-	@Autowired
-	private RDataPermissionService dataPermissionService;
-	
-	/**
-	 * 查询用户的角色权限
-	 * @param username
-	 * @return
-	 */
-	public List<RRolePermission> getRolePermissionByUsername(String username){
-		return this.getDao().findRolePermissionByFunction(username);
-	}
-	
 	/**
 	 * 根据功能查询角色权限
 	 * @param function
@@ -46,7 +33,7 @@ public class RRolePermissionService extends CrudService<RRolePermission, RRolePe
 	 * @param roleIds
 	 */
 	public void setSysFunctionRole(int sfId,List<Integer> roleIds){
-		this.delBySysFunction(sfId); // 先删除之前的
+		this.delBySfId(sfId); // 先删除之前的
 		
 		FunctionRoleParam param = new FunctionRoleParam();
 		param.setRoleIds(roleIds);
@@ -56,21 +43,12 @@ public class RRolePermissionService extends CrudService<RRolePermission, RRolePe
 		
 	}
 	
-	public void delBySysFunction(int sfId){
+	public void delBySfId(int sfId){
 		this.getDao().delBySfId(sfId);
 	}
 	
-	@Override
-	public void del(RRolePermission entity) {
-		dataPermissionService.delBySfId(entity.getSfId());
-		
-		this.getDao().delBySfId(entity.getSfId());
+	public void delByRoleId(int roleId){
+		this.getDao().delByRoleId(roleId);
 	}
 	
-	public List<RRolePermission> getRolePermissionByRoleId(int roleId){
-		ExpressionQuery query = ExpressionQuery.buildQueryAll();
-		query.add(new ValueExpression("role_id", roleId));
-		
-		return this.find(query);
-	}
 }
