@@ -2,7 +2,7 @@ if (typeof(jQuery) != 'undefined') {
     $(document).ajaxError(function (event, request, settings) {
         if (request.getResponseHeader("X-timeout") && request.status == 401) {
             // 页面跳转
-        	top.location.href = ctx;
+        	top.location.href = ctx + 'needLogin.html';
         }else{
         	alert("系统异常");
         }

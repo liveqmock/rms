@@ -3,9 +3,7 @@ package org.durcframework.rms.service;
 import java.util.List;
 
 import org.durcframework.exception.DurcException;
-import org.durcframework.rms.dao.RRolePermissionDao;
 import org.durcframework.rms.dao.RSysFunctionDao;
-import org.durcframework.rms.entity.RRolePermission;
 import org.durcframework.rms.entity.RSysFunction;
 import org.durcframework.rms.entity.RSysOperate;
 import org.durcframework.rms.entity.RSysRes;
@@ -22,7 +20,7 @@ public class AddOperateService {
 	@Autowired
 	private RSysFunctionDao functionDao;
 	@Autowired
-	private RRolePermissionDao permissionDao;
+	private RRolePermissionService permissionService;
 	
 	/**
 	 * 添加操作权限
@@ -35,7 +33,7 @@ public class AddOperateService {
 	public void add(RSysRes res,RSysOperate operate,List<Integer> roleIds){
 		int sfId = this.addFunction(res,operate);
 		
-		addRolePermission(sfId,roleIds);
+		permissionService.setSysFunctionRole(sfId, roleIds);
 	}
 	
 	
@@ -61,17 +59,6 @@ public class AddOperateService {
 		functionDao.save(function);
 		
 		return function.getSfId();
-	}
-	
-	// 添加角色权限
-	private void addRolePermission(int sfId,List<Integer> roleIds){
-		RRolePermission rolePermission = null;
-		for (Integer roleId : roleIds) {
-			rolePermission = new RRolePermission();
-			rolePermission.setRoleId(roleId);
-			rolePermission.setSfId(sfId);
-			permissionDao.save(rolePermission);
-		}
 	}
 	
 }

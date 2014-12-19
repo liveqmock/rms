@@ -42,7 +42,11 @@ public class RSysFunctionController extends
 	@Autowired
 	private RRolePermissionService permissionService;
 	
-	
+	/**
+	 * 设置菜单的操作点
+	 * @param addOperateParam
+	 * @return
+	 */
     @RequestMapping("/addRSysFunction.do")
     public ModelAndView addRSysFunction(AddOperateParam addOperateParam) {
     	RSysOperate operate = sysOperateService.get(addOperateParam.getOperateCode());
