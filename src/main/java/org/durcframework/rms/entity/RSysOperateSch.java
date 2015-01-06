@@ -12,16 +12,16 @@ public class RSysOperateSch extends SearchEasyUI{
         this.operateNameSch = operateNameSch;
     }
     
-    @ValueField(column = "operate_name")
+    @ValueField(column = "operate_name",equal="like")
     public String getOperateNameSch(){
         return this.operateNameSch;
     }
 
+    @ValueField(column = "operate_code",equal="like")
 	public String getOperateCodeSch() {
 		return operateCodeSch;
 	}
 
-	@ValueField(column = "operate_code")
 	public void setOperateCodeSch(String operateCodeSch) {
 		this.operateCodeSch = operateCodeSch;
 	}

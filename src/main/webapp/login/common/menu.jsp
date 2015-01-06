@@ -8,7 +8,6 @@ $(function(){
 	var $menu = $("#menu");
 	$menu.tree({
 	    url : ctx + 'listUserMenu.do',
-	    lines : true,
 	    onClick : function (node) {
 	    	var attr = node.attributes;
 	        if (attr && attr.url) {
@@ -48,6 +47,7 @@ $(function(){
 	    	$mainTab.tabs('add', {
 	            title : text,
 	            closable : true,
+	            border:false,
 	            content : '<iframe src="'+ ctx + url+'" scrolling="yes" frameborder="0" style="width:100%;height:100%;"></iframe>'
 	        });
 	    }

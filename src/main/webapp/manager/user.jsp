@@ -19,9 +19,7 @@
 			<table>
 				<tr>
 					<td class="fm_lab">用户名:</td><td><input name="usernameSch" type="text" class="easyui-validatebox"></td>
-				</tr>
-				<tr>
-					<td colspan="2">
+					<td>
 						<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="crud.search();">查询</a>
 					</td>
 				</tr>

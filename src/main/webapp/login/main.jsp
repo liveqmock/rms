@@ -6,19 +6,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>权限管理系统</title>
-<jsp:include page="../easyui_lib.jsp"></jsp:include>	
+<jsp:include page="../easyui_lib.jsp"></jsp:include>
 </head>
 <body>
 <body id="mainLayout" class="easyui-layout">
-	<div data-options="region:'north',border:false" style="height:30px;padding:5px;background:#B3DFDA;">
+	<div data-options="region:'north',border:false" style="height:30px;padding:5px;">
 		<jsp:include page="common/header.jsp"></jsp:include>
 	</div>
-	<div data-options="region:'west',split:true,title:'菜单'" style="width:150px;padding:10px;">
+	<div data-options="region:'west',split:true,title:'菜单'" style="width:150px;padding:10px;background-color:#fafafa;">
 		<jsp:include page="common/menu.jsp"></jsp:include>
 	</div>
-<!-- 	<div data-options="region:'east',split:false,collapsed:true,title:'Velocity参数列表'" style="width:360px;"> -->
-<!-- 		<div id="vcPg"></div> -->
-<!-- 	</div> -->
 	<div data-options="region:'center'">
 		<div id="mainTab" class="easyui-tabs" data-options="fit:true,border:false">
 			<div title="首页" style="padding:10px">

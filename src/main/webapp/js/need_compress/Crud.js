@@ -160,7 +160,7 @@ var Crud = (function(){
 			// 默认参数
 			var settings = {    
 			    url:this.listUrl,columns:[columns],toolbar:'#toolbar'
-			    ,fitColumns:true,animate:true,collapsible:true
+			    ,fitColumns:true,animate:false,collapsible:true
 			    ,pageSize:20
 			};
 			// 合并参数

@@ -11,9 +11,25 @@
 </style>
 </head>
 <body>
-     <div id="toolbar">
-        <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="crud.add()">添加操作类型</a>
-    </div>
+
+	<div class="easyui-panel search_panel" 
+	style="padding:5px;background-color:#fafafa;margin-bottom: 10px;"
+	data-options="iconCls:'icon-search'">
+		 <form id="schForm">
+	        <table>
+	        	<tr>
+	        		<td class="fm_lab">操作代码:</td><td><input name="operateCodeSch" type="text" class="easyui-validatebox"></td>
+	        		<td class="fm_lab">操作名称:</td><td><input name="operateNameSch" type="text" class="easyui-validatebox"></td>
+	        		<td><a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="crud.search();">查询</a></td>
+	        	</tr>
+	        </table>
+	    </form>
+	</div>
+
+	<div id="toolbar">
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="crud.add()">添加操作类型</a>
+	</div>
+    
     <table id="dg"></table>
     
     <div id="dlg" class="easyui-dialog" style="width:320px;height:280px;padding:10px 20px"
@@ -56,6 +72,7 @@ var crud = Crud.create({
     ,dlgId:'dlg'
     ,formId:'fm'
     ,gridId:'dg'
+    ,searchFormId:'schForm'
 });
 
 var buttons = [
@@ -66,12 +83,14 @@ var buttons = [
 		del(row);
 	}}
 ];
-           
+
+var appendOpts = {rownumbers:true,pageSize:50};
+
 crud.buildGrid([
  {field:'operateCode',title:'操作代码'}
 ,{field:'operateName',title:'操作名称'}
 ,crud.createOperColumn(buttons)
-]);
+],appendOpts);
 
 $('#delGrid').datagrid({
 	columns:[[    
