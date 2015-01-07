@@ -62,7 +62,10 @@ var crud = Crud.create({
     ,gridId:'dg'
 });
 
-var appendOptions = {idField:'srId',treeField:'resName'}
+var appendOptions = {
+	idField:'srId'
+	,treeField:'resName'
+}
 var buttons = [
 	{text:'修改',onclick:function(row){
 		crud.update(row);
@@ -85,7 +88,14 @@ var buttons = [
 	}}
 ]
 crud.buildTreegrid([
-	{field:'resName',title:'资源名称'}
+	{field:'resName',title:'资源名称',formatter:function(value,row,index){
+		if (!row.parentId){
+			return '<strong>' + value + '</strong>';
+		}else{
+			return value;
+		}
+	}
+}
 	,{field:'url',title:'url'}
 	,crud.createOperColumn(buttons)
 ],appendOptions);

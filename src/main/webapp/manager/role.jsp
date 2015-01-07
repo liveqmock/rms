@@ -34,8 +34,8 @@
     
     <div id="dlgDel" class="easyui-dialog" style="width:360px;height:280px;padding:10px 20px"
             closed="true" modal="true" title="删除角色" buttons="#dlgdlgDel-buttons">
+    	<span style="color:red;">删除后,以下成员将失去该角色及对应的功能.确定删除吗?</span>
     	<div id="delUsernameGrid"></div>
-    	<span style="color:red;">删除后,以上成员将失去该角色,确定删除吗?</span>
     </div>
     <div id="dlgdlgDel-buttons">
         <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="doDel(); return false;">确定</a>

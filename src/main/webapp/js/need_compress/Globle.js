@@ -93,3 +93,6 @@ var easyuiPanelOnMove = function(left, top) {
 		top : t
 	});
 };
+$.fn.dialog.defaults.onMove = easyuiPanelOnMove;
+$.fn.window.defaults.onMove = easyuiPanelOnMove;
+$.fn.panel.defaults.onMove = easyuiPanelOnMove;
