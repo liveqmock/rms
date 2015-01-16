@@ -8,6 +8,6 @@
 <title>首页</title>
 </head>
 <body>
-<p style="font-size:14px">欢迎</p>
+<p style="font-size:14px">欢迎使用权限管理系统</p>
 </body>
 </html>

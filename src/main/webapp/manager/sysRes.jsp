@@ -39,11 +39,13 @@
     <div id="setSysFun" class="easyui-dialog" 
     	style="width:600px;height:420px;"
     	title="设置操作点"
-    	closed="true" modal="false" buttons="#setSysFun-btn">
+    	closed="true" modal="false"
+    	draggable="false"
+    	buttons="#setSysFun-btn">
     	<iframe id="sysFunFrame" scrolling="yes" frameborder="0" style="width:100%;height:100%;"></iframe>
     </div>
      <div id="setSysFun-btn">
-        <a href="#" class="easyui-linkbutton" onclick="closeDlg(); return false;">关闭</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="closeDlg(); return false;">关闭</a>
     </div>
     
 <jsp:include page="../easyui_lib.jsp"></jsp:include>

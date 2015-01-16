@@ -8,6 +8,7 @@ $(function(){
 	var $menu = $("#menu");
 	$menu.tree({
 	    url : ctx + 'listUserMenu.do',
+	    lines:true,
 	    onClick : function (node) {
 	    	var attr = node.attributes;
 	        if (attr && attr.url) {

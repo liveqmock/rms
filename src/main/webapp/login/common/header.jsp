@@ -7,7 +7,7 @@
 | <a href="javascript:void(0)" onclick="updatePswd(); return false;">修改密码</a>
 | <a href="javascript:void(0)" onclick="Globle.logout(); return false;">安全退出</a>
 </span>
-<span style="padding-left: 5px; font-size: 16px;">
+<span style="padding-left: 5px; font-size: 20px;font-family: 隶书;">
 <!-- 		<img src="images/blocks.gif" width="20" height="20" align="absmiddle" /> -->
 权限管理系统
 </span>

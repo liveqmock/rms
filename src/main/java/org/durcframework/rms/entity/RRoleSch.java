@@ -1,5 +1,6 @@
 package org.durcframework.rms.entity;
 
+import org.durcframework.expression.annotation.LikeDoubleField;
 import org.durcframework.expression.annotation.ValueField;
 import org.durcframework.rms.common.SearchEasyUI;
 
@@ -21,7 +22,7 @@ public class RRoleSch extends SearchEasyUI{
         this.roleNameSch = roleNameSch;
     }
     
-    @ValueField(column = "role_name",equal="like")
+    @LikeDoubleField(column = "role_name")
     public String getRoleNameSch(){
         return this.roleNameSch;
     }

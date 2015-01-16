@@ -10,7 +10,7 @@
 </head>
 <body>
 <body id="mainLayout" class="easyui-layout">
-	<div data-options="region:'north',border:false" style="height:30px;padding:5px;">
+	<div data-options="region:'north',border:false" style="height:35px;padding:5px;background-color: #b3dfda;">
 		<jsp:include page="common/header.jsp"></jsp:include>
 	</div>
 	<div data-options="region:'west',split:true,title:'菜单'" style="width:150px;padding:10px;background-color:#fafafa;">

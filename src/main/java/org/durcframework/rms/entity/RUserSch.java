@@ -2,6 +2,7 @@ package org.durcframework.rms.entity;
 
 import java.util.Date;
 
+import org.durcframework.expression.annotation.LikeDoubleField;
 import org.durcframework.expression.annotation.ValueField;
 import org.durcframework.rms.common.SearchEasyUI;
 
@@ -26,7 +27,7 @@ public class RUserSch extends SearchEasyUI{
         this.usernameSch = usernameSch;
     }
     
-    @ValueField(column = "username",equal="like")
+    @LikeDoubleField(column = "username")
     public String getUsernameSch(){
         return this.usernameSch;
     }
